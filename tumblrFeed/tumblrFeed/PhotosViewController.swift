@@ -13,8 +13,9 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
 
     var posts: [NSDictionary] = []
     
-    
     @IBOutlet weak var tableView: UITableView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
@@ -35,7 +36,7 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
                 if let data = data {
                     if let responseDictionary = try! JSONSerialization.jsonObject(
                         with: data, options:[]) as? NSDictionary {
-                        //print("responseDictionary: \(responseDictionary)")
+                        print("responseDictionary: \(responseDictionary)")
                         
                         // Recall there are two fields in the response dictionary, 'meta' and 'response'.
                         // This is how we get the 'response' field
@@ -65,8 +66,11 @@ class PhotosViewController: UIViewController, UITableViewDataSource, UITableView
        
         let imageUrlString = photos?[0].value(forKeyPath: "original_size.url") as? String
         let imageUrl = URL(string: imageUrlString!)!
+        let cap = post["caption"] as! String
         
-        cell.image.setImageWith(imageUrl)
+        cell.quote.text = cap
+        cell.photoImageView.setImageWith(imageUrl )
+        print ("row \(indexPath.row)")
         self.tableView.reloadData()
         
         return cell
